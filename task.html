@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Management System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 50%;
+        margin: 30px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      input[type="text"],
+      select {
+        padding: 10px;
+        width: 80%;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+      }
+      input[type="button"],
+      .btn {
+        padding: 10px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .btn.pending {
+        background: #f44336;
+      }
+      .task-list {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      .task-list th,
+      .task-list td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      .task-list th {
+        background: #f4f4f4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Task Management System</h1>
+      <div class="task-input">
+        <input type="text" id="taskName" placeholder="Enter task name" />
+        <select id="taskStatus">
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <input type="button" value="Add Task" onclick="addTask()" />
+      </div>
+
+      <table class="task-list">
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="taskTable">
+          <!-- Task rows will be added here dynamically -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      function addTask() {
+        var taskName = document.getElementById("taskName").value;
+        var taskStatus = document.getElementById("taskStatus").value;
+
+        if (taskName === "") return;
+
+        var table = document.getElementById("taskTable");
+        var row = table.insertRow();
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = taskName;
+        cell2.innerHTML = taskStatus;
+
+        if (taskStatus === "Completed") {
+          cell3.innerHTML =
+            '<button class="btn pending" onclick="markAsPending(this)">Mark as Pending</button>';
+        } else {
+          cell3.innerHTML =
+            '<button class="btn" onclick="markAsCompleted(this)">Mark as Completed</button>';
+        }
+      }
+
+      function markAsPending(button) {
+        var row = button.parentNode.parentNode;
+        row.cells[1].innerHTML = "Pending";
+        button.outerHTML =
+          '<button class="btn" onclick="markAsCompleted(this)">Mark as Completed</button>';
+      }
+
+      function markAsCompleted(button) {
+        var row = button.parentNode.parentNode;
+        row.cells[1].innerHTML = "Completed";
+        button.outerHTML =
+          '<button class="btn pending" onclick="markAsPending(this)">Mark as Pending</button>';
+      }
+    </script>
+  </body>
+</html>
+`
